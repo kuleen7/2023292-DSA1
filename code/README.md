@@ -1,4 +1,4 @@
-# CSE558 Assignment — JL / random projection on KDD Cup 99
+# CSE558 Assignment JL / random projection on KDD Cup 99
 Python 3.10, numpy 1.24, scikit-learn 1.7, matplotlib, pandas. Run in this order (from this folder):
     python q1_kmeans.py       
     python q2_regression.py  
