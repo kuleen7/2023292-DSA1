@@ -1,0 +1,49 @@
+D: n=494021, d=116; attack fraction y=0.8031
+rank(D) = 113 smallest singular values: [9.97298219e-01 9.90714475e-01 1.06124718e-01 3.55150170e-11
+ 2.67653377e-11 1.68013422e-11]
+(a) Loss(D,y,b)=2949.7888  time=4.070s [4.198947500088252, 4.045117600006051, 3.9657262000255287]
+m=   50 rep=0: Loss=10538.48 ratio=3.5726 sketched=0.00 time=0.268s
+m=   50 rep=1: Loss=18827.94 ratio=6.3828 sketched=0.00 time=0.264s
+m=   50 rep=2: Loss=12364.36 ratio=4.1916 sketched=0.00 time=0.291s
+m=   50 rep=3: Loss=10955.55 ratio=3.7140 sketched=0.00 time=0.309s
+m=   50 rep=4: Loss=11745.72 ratio=3.9819 sketched=0.00 time=0.240s
+m=  100 rep=0: Loss=45109.31 ratio=15.2924 sketched=0.00 time=0.240s
+m=  100 rep=1: Loss=32654.47 ratio=11.0701 sketched=0.00 time=0.259s
+m=  100 rep=2: Loss=55990.97 ratio=18.9813 sketched=0.00 time=0.275s
+m=  100 rep=3: Loss=39076.88 ratio=13.2473 sketched=0.00 time=0.256s
+m=  100 rep=4: Loss=30749.78 ratio=10.4244 sketched=0.00 time=0.308s
+m=  200 rep=0: Loss=5845.50 ratio=1.9817 sketched=1573.83 time=0.292s
+m=  200 rep=1: Loss=6754.99 ratio=2.2900 sketched=1261.68 time=0.263s
+m=  200 rep=2: Loss=7187.41 ratio=2.4366 sketched=1450.67 time=0.268s
+m=  200 rep=3: Loss=7192.33 ratio=2.4383 sketched=1361.96 time=0.271s
+m=  200 rep=4: Loss=6435.57 ratio=2.1817 sketched=1307.35 time=0.265s
+m=  500 rep=0: Loss=3940.47 ratio=1.3358 sketched=2420.68 time=0.280s
+m=  500 rep=1: Loss=4041.65 ratio=1.3701 sketched=2611.50 time=0.275s
+m=  500 rep=2: Loss=3677.92 ratio=1.2468 sketched=2413.82 time=0.274s
+m=  500 rep=3: Loss=3739.99 ratio=1.2679 sketched=2446.35 time=0.270s
+m=  500 rep=4: Loss=3652.73 ratio=1.2383 sketched=2219.18 time=0.284s
+m= 1000 rep=0: Loss=3301.98 ratio=1.1194 sketched=2434.11 time=0.271s
+m= 1000 rep=1: Loss=3365.83 ratio=1.1410 sketched=2639.97 time=0.277s
+m= 1000 rep=2: Loss=3360.65 ratio=1.1393 sketched=2749.51 time=0.289s
+m= 1000 rep=3: Loss=3394.93 ratio=1.1509 sketched=2578.37 time=0.300s
+m= 1000 rep=4: Loss=3244.80 ratio=1.1000 sketched=2841.03 time=0.292s
+m= 2000 rep=0: Loss=3108.68 ratio=1.0539 sketched=2622.39 time=0.310s
+m= 2000 rep=1: Loss=3131.88 ratio=1.0617 sketched=2767.63 time=0.297s
+m= 2000 rep=2: Loss=3108.79 ratio=1.0539 sketched=2551.67 time=0.275s
+m= 2000 rep=3: Loss=3123.02 ratio=1.0587 sketched=2766.66 time=0.279s
+m= 2000 rep=4: Loss=3120.60 ratio=1.0579 sketched=2776.13 time=0.283s
+m= 5000 rep=0: Loss=3050.47 ratio=1.0341 sketched=2846.82 time=0.292s
+m= 5000 rep=1: Loss=3020.38 ratio=1.0239 sketched=2938.47 time=0.308s
+m= 5000 rep=2: Loss=3001.85 ratio=1.0176 sketched=2865.80 time=0.290s
+m= 5000 rep=3: Loss=3002.91 ratio=1.0180 sketched=2826.33 time=0.303s
+m= 5000 rep=4: Loss=3005.67 ratio=1.0189 sketched=2955.34 time=0.305s
+(d) m=50: mean=0.9937 sd=0.2267 (theory sd 0.2000)
+(d) m=500: mean=1.0074 sd=0.0618 (theory sd 0.0632)
+(d) m=5000: mean=0.9983 sd=0.0207 (theory sd 0.0200)
+(e) Loss(D',y',b')=185.6984
+  rep 0: count form=0.032s ratio=1.31648 | dense form=0.402s ratio=1.28014
+  rep 1: count form=0.041s ratio=1.36110 | dense form=0.463s ratio=1.23254
+  rep 2: count form=0.061s ratio=1.26086 | dense form=0.462s ratio=1.30548
+  rep 3: count form=0.055s ratio=1.26765 | dense form=0.439s ratio=1.30889
+  rep 4: count form=0.037s ratio=1.30165 | dense form=0.395s ratio=1.21046
+done
