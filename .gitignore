@@ -1,5 +1,7 @@
 data/
+results/
 *.zip
 __pycache__/
 *.pyc
 CSE558_Assignment.pdf
+code/build_report.py
