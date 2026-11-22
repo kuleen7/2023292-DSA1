@@ -1,4 +1,3 @@
-"""Sanity checks: float32 vs float64 inertia, cost() vs brute force, reproducibility of seeded runs."""
 import json, time
 import numpy as np
 from sklearn.cluster import KMeans
@@ -15,19 +14,16 @@ def cost(X, B, chunk=50000):
         tot += np.maximum(((x ** 2).sum(1)[:, None] - 2 * x @ B.T + bb[None, :]).min(1), 0).sum()
     return tot
 
-# 1. float64 k-means: does inertia_ agree with our cost?
 km = KMeans(n_clusters=15, n_init=5, random_state=2026).fit(D.astype(np.float64))
 print("float64 KMeans: inertia_ =", km.inertia_, " our cost =", cost(D, km.cluster_centers_))
 km32 = KMeans(n_clusters=15, n_init=5, random_state=2026).fit(D)
 print("float32 KMeans: inertia_ =", km32.inertia_, " our cost =", cost(D, km32.cluster_centers_), " saved:", r1["a"]["cost"])
 
-# 2. brute-force check of cost() on 3000 rows
 rng = np.random.default_rng(0); idx = rng.choice(n, 3000, replace=False); X = D[idx].astype(np.float64)
 B = km32.cluster_centers_
 bf = sum(min(((X[i] - b) ** 2).sum() for b in B) for i in range(len(X)))
 print("cost() vs brute force on 3000 rows:", cost(D[idx], B), bf)
 
-# 3. rerun Q1 (m=10, run 1) and Q2 (m=500, run 1) and compare with the saved numbers
 m, r = 10, 0
 rng = np.random.default_rng([2026, 1, m, r]); A = rng.normal(0.0, 1.0 / np.sqrt(m), size=(m, d))
 E = D @ A.T.astype(np.float32); k = KMeans(n_clusters=15, n_init=5, random_state=2026 + 100 * m + r).fit(E)

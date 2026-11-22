@@ -1,4 +1,3 @@
-"""Q1: JL for k-means on KDD Cup 99.  Run: python q1_kmeans.py"""
 import json
 import time
 import numpy as np
@@ -19,7 +18,6 @@ print(f"D: n={n}, d={d}", flush=True)
 
 
 def cost(X, B, chunk=50000):
-    """cost(X,B): sum over rows of the squared distance to the nearest centre."""
     B = np.asarray(B, dtype=np.float64)
     bb = (B ** 2).sum(1)
     tot = 0.0
@@ -31,7 +29,6 @@ def cost(X, B, chunk=50000):
 
 
 def centroids(X, labels, k=K):
-    """Cluster means mu_j(X)."""
     cnt = np.bincount(labels, minlength=k).astype(np.float64)
     out = np.empty((k, X.shape[1]))
     for j in range(X.shape[1]):
@@ -40,7 +37,6 @@ def centroids(X, labels, k=K):
 
 
 def cost_partition(X, labels, k=K):
-    """cost_X(C) for a partition C (given as labels)."""
     mu = centroids(X, labels, k)
     tot = 0.0
     for s in range(0, X.shape[0], 100000):
@@ -55,7 +51,6 @@ def kmeans(X, seed):
 
 res = {"n": n, "d": d}
 
-# (a)
 with Timer() as t:
     km = kmeans(D, SEED)
 B = km.cluster_centers_
@@ -63,10 +58,9 @@ labels_D = km.labels_
 costDB = cost(D, B)
 res["a"] = {"cost": costDB, "inertia": float(km.inertia_), "time": t.dt}
 print(f"(a) cost(D,B)={costDB:.4f} (inertia {km.inertia_:.4f}) time={t.dt:.2f}s", flush=True)
-cost_D_CD = cost_partition(D, labels_D)  # needed in (e)
+cost_D_CD = cost_partition(D, labels_D)
 print("   cost_D(C_D) =", cost_D_CD, flush=True)
 
-# (b),(c),(d)
 rb = {m: {"ratio": [], "ratio_pinv": [], "cost": [], "cost_pinv": [], "time": [], "time_A": [], "time_total": []}
       for m in MS}
 for m in MS:
@@ -81,19 +75,18 @@ for m in MS:
         t0 = time.perf_counter()
         kme = kmeans(E, SEED + 100 * m + r)
         tK = time.perf_counter() - t0
-        Bhat = centroids(D, kme.labels_)  # centres in R^d
+        Bhat = centroids(D, kme.labels_)
         Bplus = (np.linalg.pinv(A) @ kme.cluster_centers_.T.astype(np.float64)).T
         c_hat, c_plus = cost(D, Bhat), cost(D, Bplus)
         rb[m]["cost"].append(c_hat); rb[m]["cost_pinv"].append(c_plus)
         rb[m]["ratio"].append(c_hat / costDB); rb[m]["ratio_pinv"].append(c_plus / costDB)
-        rb[m]["time"].append(tE + tK)   # time for (d)
+        rb[m]["time"].append(tE + tK)
         rb[m]["time_A"].append(tA)
         rb[m]["time_total"].append(tA + tE + tK)
         print(f"m={m:2d} rep={r}: cost={c_hat:.2f} ratio={c_hat/costDB:.4f} "
               f"ratio_pinv={c_plus/costDB:.3f} time(E+kmeans)={tE+tK:.2f}s", flush=True)
 res["b"] = {str(m): v for m, v in rb.items()}
 
-# (e)
 rng = np.random.default_rng([SEED, 2])
 I, L = [], []
 while len(I) < 10 ** 4:
@@ -125,7 +118,6 @@ res["e"] = {str(m): {"pair_mean": float(pair_ratio[m].mean()), "pair_sd": float(
 res["cost_D_CD"] = cost_D_CD
 json.dump(res, open(f"{OUT}/q1_results.json", "w"), indent=1)
 
-# figures
 x = np.arange(len(MS))
 mean = np.array([np.mean(rb[m]["ratio"]) for m in MS])
 lo = np.array([np.min(rb[m]["ratio"]) for m in MS])
@@ -140,7 +132,6 @@ ax.set_xlabel("m"); ax.set_ylabel(r"cost$(D,\hat B)$ / cost$(D,B)$")
 ax.set_title(r"Q1(b): cost ratio of $\hat B$ (clusters from JL-projected data)")
 ax.legend(); fig.tight_layout(); fig.savefig(f"{OUT}/q1b_ratio.png", dpi=150); plt.close(fig)
 
-# (c)
 w = 0.38
 mp = np.array([np.mean(rb[m]["ratio_pinv"]) for m in MS])
 lop = np.array([np.min(rb[m]["ratio_pinv"]) for m in MS])
@@ -154,7 +145,6 @@ ax.set_xlabel("m"); ax.set_ylabel("cost ratio w.r.t. cost(D,B)  (log scale)")
 ax.set_title(r"Q1(c): $\hat B$ vs $B^+$"); ax.legend(); fig.tight_layout()
 fig.savefig(f"{OUT}/q1c_ratio.png", dpi=150); plt.close(fig)
 
-# (d)
 tm = np.array([np.mean(rb[m]["time"]) for m in MS])
 fig, ax = plt.subplots(figsize=(6.5, 4))
 ax.plot(MS, tm, "o-", label="compute E + k-means on E (mean of 5)")
@@ -162,7 +152,6 @@ ax.axhline(res["a"]["time"], color="r", ls="--", label=f"k-means on D ({res['a']
 ax.set_xlabel("m"); ax.set_ylabel("wall-clock time (s)"); ax.set_title("Q1(d): running time")
 ax.set_ylim(bottom=0); ax.legend(); fig.tight_layout(); fig.savefig(f"{OUT}/q1d_time.png", dpi=150); plt.close(fig)
 
-# (e)
 fig, ax = plt.subplots(figsize=(8, 4.5))
 p1 = ax.boxplot([pair_ratio[m] for m in MS], positions=np.arange(len(MS)) - 0.18, widths=0.3, patch_artist=True,
                 showfliers=True, flierprops=dict(markersize=2, alpha=0.3))

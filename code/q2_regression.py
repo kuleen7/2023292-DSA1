@@ -1,4 +1,3 @@
-"""Q2: CountSketch for linear regression on KDD Cup 99.  Run: python q2_regression.py"""
 import json
 import time
 import numpy as np
@@ -28,7 +27,6 @@ def loss(X, t, a):
 
 res = {"n": n, "d": d}
 
-# rank(D)
 sv = np.linalg.svd(D, compute_uv=False)
 rank = int(np.linalg.matrix_rank(D))
 res["rank"] = rank
@@ -36,7 +34,6 @@ res["sv_tail"] = [float(s) for s in sv[-6:]]
 res["sv_max"] = float(sv[0])
 print("rank(D) =", rank, "smallest singular values:", sv[-6:], flush=True)
 
-# (a)
 times = []
 for _ in range(3):
     t0 = time.perf_counter()
@@ -46,7 +43,6 @@ Lb = loss(D, y, b)
 res["a"] = {"loss": Lb, "time_mean": float(np.mean(times)), "times": times}
 print(f"(a) Loss(D,y,b)={Lb:.4f}  time={np.mean(times):.3f}s {times}", flush=True)
 
-# (b), (c)
 rb = {}
 for m in MS:
     rows = {"loss": [], "ratio": [], "sk_loss": [], "time": []}
@@ -64,7 +60,6 @@ for m in MS:
     rb[m] = rows
 res["b"] = {str(m): v for m, v in rb.items()}
 
-# (d)
 v = D @ b - y
 nv2 = float(v @ v)
 v4 = float((v ** 4).sum())
@@ -81,7 +76,6 @@ for m in [50, 500, 5000]:
     print(f"(d) m={m}: mean={rr.mean():.4f} sd={rr.std(ddof=1):.4f} (theory sd {theo:.4f})", flush=True)
 res["d"] = {str(m): v_ for m, v_ in rd.items()}
 
-# (e)
 rng = np.random.default_rng(SEED + 5)
 idx = rng.choice(n, size=50000, replace=False)
 Dp, yp = D[idx], y[idx]
@@ -92,7 +86,6 @@ m = 500
 re = {"count": {"t_form": [], "t_solve": [], "ratio": []}, "dense": {"t_form": [], "t_solve": [], "ratio": []}}
 for r in range(REPS):
     rng = np.random.default_rng([SEED, 6, r])
-    # (i) CountSketch
     t0 = time.perf_counter()
     SD, Sy = countsketch(Dp, yp, m, rng)
     t1 = time.perf_counter()
@@ -100,7 +93,6 @@ for r in range(REPS):
     t2 = time.perf_counter()
     re["count"]["t_form"].append(t1 - t0); re["count"]["t_solve"].append(t2 - t1)
     re["count"]["ratio"].append(loss(Dp, yp, at) / Lbp)
-    # (ii) dense Gaussian S, N(0,1/m)
     rng = np.random.default_rng([SEED, 7, r])
     t0 = time.perf_counter()
     S = rng.normal(0.0, 1.0 / np.sqrt(m), size=(m, Dp.shape[0]))
@@ -116,7 +108,6 @@ for r in range(REPS):
 res["e"] = {"loss_bp": Lbp, **re}
 json.dump(res, open(f"{OUT}/q2_results.json", "w"), indent=1)
 
-# figures
 mean = np.array([np.mean(rb[m]["ratio"]) for m in MS])
 lo = np.array([np.min(rb[m]["ratio"]) for m in MS])
 hi = np.array([np.max(rb[m]["ratio"]) for m in MS])
@@ -143,7 +134,6 @@ for a_, m in zip(ax, [50, 500, 5000]):
     a_.set_xlabel(r"$\|Sv\|^2/\|v\|^2$")
 fig.tight_layout(); fig.savefig(f"{OUT}/q2d_hist.png", dpi=150); plt.close(fig)
 
-# (c)
 tm = np.array([np.mean(rb[m]["time"]) for m in MS])
 fig, ax = plt.subplots(figsize=(6, 3.8))
 ax.plot(MS, tm, "o-", label="CountSketch pipeline (mean of 5)")

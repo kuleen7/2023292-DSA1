@@ -1,4 +1,3 @@
-"""Redraws a few figures from the saved json results (no recomputation)."""
 import json
 import numpy as np
 import matplotlib
@@ -9,7 +8,6 @@ from common import OUT
 r1 = json.load(open(f"{OUT}/q1_results.json"))
 r2 = json.load(open(f"{OUT}/q2_results.json"))
 
-# Q1(b)
 MS = [5, 10, 15, 20, 25]
 fig, ax = plt.subplots(figsize=(6.8, 4.2))
 x = np.arange(len(MS))
@@ -25,7 +23,6 @@ ax.set_xlabel("m"); ax.set_ylabel(r"cost$(D,\hat B)$ / cost$(D,B)$")
 ax.set_title(r"Q1(b): bars = mean, line = min-max, dots = the 5 runs (y-axis starts at 0.9)", fontsize=9)
 fig.tight_layout(); fig.savefig(f"{OUT}/q1b_ratio.png", dpi=150); plt.close(fig)
 
-# Q2(b)
 M2 = [50, 100, 200, 500, 1000, 2000, 5000]
 rank = r2["rank"]; Lb = r2["a"]["loss"]
 mean = np.array([np.mean(r2["b"][str(m)]["ratio"]) for m in M2])
@@ -47,7 +44,6 @@ ax[1].set_xscale("log"); ax[1].set_xlabel("m (log)"); ax[1].set_ylabel("sketched
 ax[1].set_title("Q2(b): sketched loss (exactly 0 for m < rank)"); ax[1].legend(loc="center right")
 fig.tight_layout(); fig.savefig(f"{OUT}/q2b_ratio.png", dpi=150); plt.close(fig)
 
-# Q1(d)
 tm = [np.mean(r1["b"][str(m)]["time"]) for m in MS]
 fig, ax = plt.subplots(figsize=(6.5, 4))
 ax.plot(MS, tm, "o-", label="compute E + k-means on E (mean of 5 runs)")
