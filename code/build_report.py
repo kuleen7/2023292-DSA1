@@ -15,7 +15,7 @@ from reportlab.platypus import (Image, PageBreak, Paragraph, SimpleDocTemplate, 
 from common import OUT
 
 MEMBERS = "Kuleen Mani Tripathi (Roll no. 2023292) — individual submission"
-GITHUB_URL = ""   # <-- set to the repository URL, e.g. "https://github.com/<user>/<repo>", then re-run
+GITHUB_URL = "https://github.com/kuleen7/2023292-DSA1"
 PDF = os.path.join(OUT, "DSA1_answers.pdf")
 
 fd = os.path.join(os.path.dirname(matplotlib.__file__), "mpl-data", "fonts", "ttf")
